@@ -88,9 +88,9 @@ When we work with text mining applications, we often hear of the term “Stop Wo
 from nltk.corpus import stopwords
 
 tokens = get_tokens()
-# lambda expression here
-# store stopwords in a variable for eficiency 
-# avoid retrieving them from ntlk for each iteration
+# the lambda expression below this comment
+# stores stopwords in a variable for eficiency: 
+# it avoids retrieving them from ntlk for each iteration
 sw = stopwords.words('english')
 filtered = [w for w in tokens if not w in sw]
 count = Counter(filtered)
