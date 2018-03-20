@@ -351,7 +351,7 @@ If you want to check the errors inside the EC2 instance running your EBS environ
 
 Where the key pair used is the one declared when initializing the EBS and the name of the host. Go to the EC2 console in case you want to obtain the IP address.
 
-**NOTE:** Some people have detected that even after configuring the environment varialbes the do not appear to be set. Please, make sure that the "Software Configuration" box, inside of the tab "Configuration" has the environment variables correctly setup.
+**NOTE:** Some people have detected that even after configuring the environment variables they do not appear to be set. Please, make sure that the "Software Configuration" box, inside of the tab "Configuration" has the environment variables correctly setup.
 
 <p align="center"><img src="./images/Lab04-15.png " alt="Environment" title="Environment"/></p>
 
