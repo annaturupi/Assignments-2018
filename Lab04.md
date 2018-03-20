@@ -48,7 +48,7 @@ You are going to make a few changes to the base Python code. Therefore, download
 
 Prepare a new **private** repository in GitHub named `eb-django-express-signup` to commit all the changes to your code. Invite `angeltoribio-UPC-BCN` to your new remote private repository as a collaborator.
 
-Do not mix the repository containing the course answers with the repository that holds the changes to your web app. 
+Do not mix the repository containing the course answers with the repository that holds the changes to your web app.
 
 <a name="Tasks42"/>
 
@@ -130,10 +130,12 @@ _$ export AWS_REGION="eu-west-1"
 You can also type in the command line:
 
 ```
-_$ source extra-files/environment.sh 
+_$ source extra-files/environment.sh
 ```
 
-Next, create a new Python virtual environment and install the packages required to run de web app. The package `boto3` is a library that hides de AWS REST API to the programmer and manages the communication between the web app and all the AWS services. Check [**Boto 3 Documentation**](https://boto3.readthedocs.io/en/latest/reference/services/index.html) for more details.
+Next, create a **new Python virtual environment** specially for this web app and install the packages required to run it. (**MS-Windows OS** user's read note at the end of this section)
+
+The package `boto3` is a library that hides de AWS REST API to the programmer and manages the communication between the web app and all the AWS services. Check [**Boto 3 Documentation**](https://boto3.readthedocs.io/en/latest/reference/services/index.html) for more details.
 
 Please, note the different prompt **(eb-virt)_$** vs. **_$** when you are inside and outside of the new virtual environment.
 
@@ -159,6 +161,11 @@ Quit the server with CONTROL-C.
 Check that you have configured the access to DynamoDB correctly by interacting with the web app through your browser [http://127.0.0.1:8000/](http://127.0.0.1:8000/).
 
 Go to the DynamoDB browser tab and verify that the **gsg-signup-table** table contains the new records that the web app should have created. If all the above works correctly, you are almost ready to transfer the web app to AWS Beanstalk.
+
+
+**NOTE**: If you are using an **MS-Windows OS** you might want to type the above commands in the Anaconda Terminal Window of the CCBDA Python environment. Make sure that "virtualenv" package is installed in that environment if you obtain a "command not found" error.
+
+<p align="center"><img src="./images/Lab01-AnacondaTerminal.png" alt="Lab04-3" title="Terminal"/></p>
 
 <a name="Tasks45"/>
 
