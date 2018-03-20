@@ -302,7 +302,7 @@ global:
 
 **NOTE:** Check that the name of the Elastic Beanstalk application_name corresponds to "gsg-signup" (or other name that you may see at the EBS console) and that the environment corresponds to something like "gsgSignup-d6rrp-env".
 
-<p align="center"><img src="./images/Lab04-9.png " alt="Lab04-14" title="Sample web app"/></p>
+<p align="center"><img src="./images/Lab04-14.png " alt="Lab04-14" title="Sample web app"/></p>
 
 Finally, you only need to type `deploy` to transfer the code to AWS.
 
