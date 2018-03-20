@@ -201,9 +201,9 @@ Open the Elastic Beanstalk console using this preconfigured link: [https://conso
 
 4. For Application version, select **Sample application** and choose **Next**.
 
-5. For Environment Info, accept the proposed name (i.e., gsgSignup-4dxpj-env). Alternatively, you can find one name that you like better, and it is available. Continue by choosing **Next**.
+5. For Environment Info, accept the proposed name (i.e., gsgSignup-d6rrp-env). Alternatively, you can find one name that you like better, and it is available. Continue by choosing **Next**.
 
-    Please note that `gsgSignup-4dxpj-env` is also part of the URL we will use to access the project: `http://gsgSignup-4dxpj-env.eu-west-1.elasticbeanstalk.com/`.
+    Please note that `gsgSignup-d6rrp-env` is also part of the URL we will use to access the project: `http://gsgSignup-d6rrp-env.eu-west-1.elasticbeanstalk.com/`.
 
 6. For Additional Resources, select **Create this environment inside a VPC** and choose **Next**.
 
@@ -272,19 +272,19 @@ Select a key pair.
 1) ccbda_upc
 2) [ Create new KeyPair ]
 (default is 2): 1
-_$ eb use gsgSignup-4dxpj-env
+_$ eb use gsgSignup-d6rrp-env
 ```
-Please note that `gsgSignup-4dxpj-env` is the environment name that we created previously and it also part of the URL we will use to access the project: `http://gsgSignup-4dxpj-env.eu-west-1.elasticbeanstalk.com/`.
+Please note that `gsgSignup-d6rrp-env` is the environment name that we created previously and it also part of the URL we will use to access the project: `http://gsgSignup-d6rrp-env.eu-west-1.elasticbeanstalk.com/`.
 
 Running eb init creates a configuration file at `.elasticbeanstalk/config.yml`. You can edit it if necessary.
 
 ```
 branch-defaults:
   master:
-    environment: gsgSignup-4dxpj-env
+    environment: gsgSignup-d6rrp-env
     group_suffix: null
 global:
-  application_name: eb-django-express-signup
+  application_name: gsg-signup
   branch: null
   default_ec2_keyname: ccbda_upc
   default_platform: Python 3.6
@@ -299,6 +299,10 @@ global:
   workspace_type: Application
 
 ```
+
+**NOTE:** Check that the name of the Elastic Beanstalk application_name corresponds to "gsg-signup" (or other name that you may see at the EBS console) and that the environment corresponds to something like "gsgSignup-d6rrp-env".
+
+<p align="center"><img src="./images/Lab04-9.png " alt="Lab04-14" title="Sample web app"/></p>
 
 Finally, you only need to type `deploy` to transfer the code to AWS.
 
