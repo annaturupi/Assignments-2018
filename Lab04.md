@@ -343,6 +343,18 @@ _$ eb deploy
 
 In the Elastic Beanstalk console, in the navigation pane for your environment, choose Logs, download them and try to find the error. For instance one of the environment variables are not set correctly.
 
+If you want to check the errors inside the EC2 instance running your EBS environment, you can connect the CLI using a command like:
+
+```
+ ssh -i .ssh/YOUR-KEYPAIR.pem ec2-user@IP-ADDRESS-OR-NAME
+```
+
+Where the key pair used is the one declared when initializing the EBS and the name of the host. Go to the EC2 console in case you want to obtain the IP address.
+
+**NOTE:** Some people have detected that even after configuring the environment varialbes the do not appear to be set. Please, make sure that the "Software Configuration" box, inside of the tab "Configuration" has the environment variables correctly setup.
+
+<p align="center"><img src="./images/Lab04-15.png " alt="Environment" title="Environment"/></p>
+
 ### One final step
 
 Before ending this session, please go to your Elastic Beanstalk console, unfold the **Actions** button and **Save Configuration**. It will be useful for you to continue with the environment in the next Lab session.
