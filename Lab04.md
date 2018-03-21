@@ -133,14 +133,14 @@ You can also type in the command line:
 _$ source extra-files/environment.sh
 ```
 
-Next, create a **new Python virtual environment** specially for this web app and install the packages required to run it. (**MS-Windows OS** user's read note at the end of this section)
+Next, create a **new Python 3.x virtual environment** specially for this web app and install the packages required to run it. (**MS-Windows OS** user's read note at the end of this section)
 
 The package `boto3` is a library that hides de AWS REST API to the programmer and manages the communication between the web app and all the AWS services. Check [**Boto 3 Documentation**](https://boto3.readthedocs.io/en/latest/reference/services/index.html) for more details.
 
 Please, note the different prompt **(eb-virt)_$** vs. **_$** when you are inside and outside of the new virtual environment.
 
 ```
-_$ virtualenv ../eb-virt
+_$ virtualenv -p python3 ../eb-virt
 _$ source ../eb-virt/bin/activate
 (eb-virt)_$ pip install django
 (eb-virt)_$ pip install boto3
