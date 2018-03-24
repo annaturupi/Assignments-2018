@@ -119,7 +119,7 @@ Our signup app uses a DynamoDB table to store the contact information that users
 
 ## Task 4.4: Test the web app locally
 
-Once you are inside the directory of the project issue the following commands to setup the configuration of the project using environment variables:
+Once you are inside the directory of the project issue the following commands to setup the configuration of the project using the process environment variables:
 
 ```
 _$ export DEBUG="True"
@@ -137,7 +137,7 @@ Next, create a **new Python 3.x virtual environment** specially for this web app
 
 The package `boto3` is a library that hides de AWS REST API to the programmer and manages the communication between the web app and all the AWS services. Check [**Boto 3 Documentation**](https://boto3.readthedocs.io/en/latest/reference/services/index.html) for more details.
 
-Please, note the different prompt **(eb-virt)_$** vs. **_$** when you are inside and outside of the new virtual environment.
+Please, note the different prompt **(eb-virt)_$** vs. **_$** when you are inside and outside of the new Python virtual environment.
 
 ```
 _$ virtualenv -p python3 ../eb-virt
@@ -162,8 +162,15 @@ Check that you have configured the access to DynamoDB correctly by interacting w
 
 Go to the DynamoDB browser tab and verify that the **gsg-signup-table** table contains the new records that the web app should have created. If all the above works correctly, you are almost ready to transfer the web app to AWS Beanstalk.
 
+**NOTE I**: Make sure that you understand that we are using two types of environments: the process environment holding the variables used to configure the web application and the Python environment to withhold only the packages that the web app is using.
 
-**NOTE**: If you are using an **MS-Windows OS** you might want to type the above commands in the Anaconda Terminal Window of the CCBDA Python environment. Make sure that "virtualenv" package is installed in that environment if you obtain a "command not found" error.
+Everytime that you open a new process the process environment variables shall be re-instantiated either manually or by some automatism such as adding them to your .bashrc setup file, PyCharm environment setup, Elastic Beanstalk environment setup, etc.
+
+We are creating a new Python virtual environment locally only to withhold the packages that the web app uses. Having a small Python environment means faster web app startup and avoid, as much as possible, any hidden dependencies and ambiguities.
+
+That Python virtual environment will be re-created remotely by Elastic Beanstalk through the use of the file *requirements.txt* and other configuration that you will set up later. 
+
+**NOTE II**: If you are using an **MS-Windows OS** you might want to type the above commands in the Anaconda Terminal Window of the CCBDA Python environment. Make sure that "virtualenv" package is installed in that environment if you obtain a "command not found" error.
 
 <p align="center"><img src="./images/Lab01-AnacondaTerminal.png" alt="Lab04-3" title="Terminal"/></p>
 
@@ -341,12 +348,12 @@ Of course, you'd try to catch such an error in development. But if an error does
 _$ eb deploy
 ```
 
-In the Elastic Beanstalk console, in the navigation pane for your environment, choose Logs, download them and try to find the error. For instance one of the environment variables are not set correctly.
+In the Elastic Beanstalk console, in the navigation pane for your environment, choose Logs, download them and try to find the error. For instance one of the process environment variables are not set correctly.
 
 If you want to check the errors inside the EC2 instance running your EBS environment, you can connect the CLI using a command like:
 
 ```
- ssh -i .ssh/YOUR-KEYPAIR.pem ec2-user@IP-ADDRESS-OR-NAME
+ ssh -i YOUR-KEYPAIR.pem ec2-user@IP-ADDRESS-OR-NAME
 ```
 
 Where the key pair used is the one declared when initializing the EBS and the name of the host. Go to the EC2 console in case you want to obtain the IP address.
