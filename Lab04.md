@@ -168,7 +168,7 @@ Everytime that you open a new process the process environment variables shall be
 
 We are creating a new Python virtual environment locally only to withhold the packages that the web app uses. Having a small Python environment means faster web app startup and avoid, as much as possible, any hidden dependencies and ambiguities.
 
-That Python virtual environment will be re-created remotely by Elastic Beanstalk through the use of the file *requirements.txt* and other configuration that you will set up later. 
+That Python virtual environment will be re-created remotely by Elastic Beanstalk through the use of the file *requirements.txt* and other configuration that you will set up later.
 
 **NOTE II**: If you are using an **MS-Windows OS** you might want to type the above commands in the Anaconda Terminal Window of the CCBDA Python environment. Make sure that "virtualenv" package is installed in that environment if you obtain a "command not found" error.
 
@@ -374,11 +374,15 @@ Before ending this session, please go to your Elastic Beanstalk console, unfold 
 
 <p align="center"><img src="./images/Lab04-12.png " alt="Lab04-12" title="Save configuration"/></p>
 
-Go to your EC2 console and check the EC2 instance that AWS uses for the Elastic Beanstalk environment. Terminate the instance. Check what happens in your EBS console. Wait a couple of minutes and check again your EC2 console. What has happened? Why do you think that has happened? Add your responses to `README.md`.
+Go to your EC2 console and check the EC2 instance that AWS uses for the Elastic Beanstalk environment. Terminate the instance. Check what happens in your EBS console. Wait a couple of minutes and check again your EC2 console. **What has happened? Why do you think that has happened?** Add your responses to `README.md`.
 
 <p align="center"><img src="./images/Lab04-13.png " alt="Lab04-13" title="EC instances"/></p>
 
-Now, to save expenses, you can terminate your environment, this time from the EBS console.  What has happened? Why do you think that has happened? Check both EC2 and EBS consoles. Add your responses to `README.md`.
+Now, to save expenses, you can terminate your environment, this time from the EBS console.  **What has happened? Why do you think that has happened?** Check both EC2 and EBS consoles. Add your responses to `README.md`.
+
+**How long have you been working on this session?**
+
+**What have been the main difficulties you have faced and how have you solved them?**
 
 # How to Submit this Assignment:
 
