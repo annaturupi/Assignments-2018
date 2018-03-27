@@ -216,8 +216,8 @@ Open the Elastic Beanstalk console using this preconfigured link: [https://conso
 
 7. For Configuration Details, select a `t2.micro` Instance type (the smallest EC2 instance that you can pick) and a key pair that you have access to. Type your e-mail address to receive notifications regarding the environment that you are launching and finally choose **Next**.
 
-8. For Environment Tags, need to create the same environment variables that you created for the local test. Once having entered the data, choose **Next**.
-    <p align="center"><img src="./images/Lab04-4.png " alt="Lab04-4" title="Environment"/></p>
+8. For Environment Tags, leave it blank and choose **Next**.
+
 
 9. For VPC Configuration, select the proposed VPC (if you haven't created one yet) and also select `eu-west-1a` for `ELB` and `EC2`. Select a VPC security group that has the set of Internet ports that are open for inbound and outbound connections. Make sure that ELB visibility is External and choose **Next**.
     <p align="center"><img src="./images/Lab04-5.png " alt="Lab04-5" title="VPC Configuration"/></p>
@@ -279,6 +279,8 @@ Select a key pair.
 1) ccbda_upc
 2) [ Create new KeyPair ]
 (default is 2): 1
+
+
 _$ eb use gsgSignup-d6rrp-env
 ```
 Please note that `gsgSignup-d6rrp-env` is the environment name that we created previously and it also part of the URL we will use to access the project: `http://gsgSignup-d6rrp-env.eu-west-1.elasticbeanstalk.com/`.
@@ -323,6 +325,10 @@ INFO: Environment update is starting.
 INFO: Deploying new version to instance(s).
 INFO: New application version was deployed to running EC2 instances.
 INFO: Environment update completed successfully.
+```
+Transfer the configuration to the remote deployment by setting the environment variables.
+```
+_$ eb setenv DEBUG=True STARTUP_SIGNUP_TABLE=gsg-signup-table AWS_REGION=eu-west-1
 
 ```
 
