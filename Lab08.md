@@ -1,1 +1,1 @@
-# Lab session 8: Web scaping
+# Lab session 8: Web scraping
