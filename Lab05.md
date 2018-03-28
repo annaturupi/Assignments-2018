@@ -167,7 +167,7 @@ SNS message sent.
 Now that the web app is working in your computer commit the changes. Deploy the new version to your EBS environment and test that it works correctly.
 
 #### Questions
-Has everything gone alright? Add your answers to the `README.md` file in the responses repository.
+**Q51: Has everything gone alright?** Add your answers to the `README.md` file in the responses repository.
 
 <a name="Tasks52" />
 
@@ -272,7 +272,7 @@ To add the new option to the menu bar, simply edit the file *form/templates/gene
 If the web app works correctly in your computer commit the changes and deploy the new version on the cloud. Change whatever is necessary to make it work.
 
 #### Questions
-Has everything gone alright? What have you changed? Add your answers to the `README.md` file in the responses repository.
+**Q52: Has everything gone alright? What have you changed?** Add your answers to the `README.md` file in the responses repository.
 
 <a name="Tasks53" />
 
@@ -284,7 +284,7 @@ Change the above code to obtain the count of e-mail addresses for each domain di
 Now, to save expenses, you can terminate your environment from the EBS console.
 
 #### Questions
-Do you think that you need to save the environment configuration? What has changed? Add your responses to `README.md`.
+**Q53: Do you think that you need to save the Elastic Beanstalk environment configuration? What has changed in the code and in the configuration of the different resources used by the web app?** Add your responses to `README.md`.
 
 <a name="Tasks54" />
 
@@ -293,7 +293,7 @@ Do you think that you need to save the environment configuration? What has chang
 
 ### The static content in our web app
 
-If you check line 9 of the file *form/templates/generic.html* you will see that, instead of loading in our server Bootstrap 4 CSS, we are already using a CDN to retrieve the CSS and send it to the final users. Bootstrap uses *maxcdn.bootstrapcdn.com* as their CDN distribution point.
+If you check line 11 of the file *form/templates/generic.html* you will see that, instead of loading in our server Bootstrap 4 CSS, we are already using a CDN to retrieve the CSS and send it to the final users. Bootstrap uses *maxcdn.bootstrapcdn.com* as their CDN distribution point.
 
 ```html
     <!-- https://www.bootstrapcdn.com/ -->
@@ -307,7 +307,7 @@ If you check line 9 of the file *form/templates/generic.html* you will see that,
           integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 ```
 
-We can now add our  CSS code to customize the look and feel of our web app even more. In that same file, add the following line just before the </head> HTML tag:
+We can now add our  CSS code to customize the look and feel of our web app even more. In that same file, add the following line just before closing the **head** HTML tag:
 
 ```html
     <link href="{% static 'custom.css' %}" rel="stylesheet">
@@ -322,7 +322,7 @@ All the distributed static content overloads our server with requests. Moving it
 
 To configure our CDN, we are going to follow the steps at ["Getting Started with CloudFront CDN"](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/GettingStarted.html). Check that document if you need extra details.
 
- Review the QuickStart hands-on [Getting Started in the Cloud with AWS](../../../Cloud-Computing-QuickStart/blob/master/Quick-Start-AWS.md) and create a new bucket in 'eu-west-1' region to deposit the web app static content. Let us name this bucket *eb-django-express-signup*.
+ Review the QuickStart hands-on [Getting Started in the Cloud with AWS](../../../Cloud-Computing-QuickStart/blob/master/Quick-Start-AWS.md) and create a new bucket in 'eu-west-1' region to deposit the web app static content. Let us name this bucket **eb-django-express-signup-YOUR-ID** (YOUR-ID can be your AWS account number or any other distinctive string because you will not be allowed to create two buckets with the same name, regardless the owner).
 
  <p align="center"><img src="./images/Lab05-8.png " alt="Lab05-8" title="S3 bucket"/></p>
 
@@ -333,17 +333,19 @@ To configure our CDN, we are going to follow the steps at ["Getting Started with
 You can also use AWS CLI to sync the contents of your static folder with that bucket. [Synchronize with your S3 bucket](https://docs.aws.amazon.com/cli/latest/reference/s3/sync.html) using the following command:
 
 ```bash
-_$ aws s3 sync --acl public-read ./static s3://eb-django-express-signup/static
-upload: ./static/custom.css to s3://eb-django-express-signup/static/custom.css
-upload: ./static/CCBDA-Square.png to s3://eb-django-express-signup/static/CCBDA-Square.png
-upload: ./static/startup-bg.png to s3://eb-django-express-signup/static/startup-bg.png
+_$ aws s3 sync --acl public-read ./static s3://eb-django-express-signup-YOUR-ID/static
+upload: ./static/custom.css to s3://eb-django-express-signup-YOUR-ID/static/custom.css
+upload: ./static/CCBDA-Square.png to s3://eb-django-express-signup-YOUR-ID/static/CCBDA-Square.png
+upload: ./static/startup-bg.png to s3://eb-django-express-signup-YOUR-ID/static/startup-bg.png
 ```
 
 If you explore in your S3 console you will see that there is a URL available to retrieve the files. Verify that you can access the contents of that URL, making the file public if it was not already.
 
 ```
-https://s3-eu-west-1.amazonaws.com/eb-django-express-signup/static/CCBDA-Square.png
+https://s3-eu-west-1.amazonaws.com/eb-django-express-signup-YOUR-ID/static/CCBDA-Square.png
 ```
+<p align="center"><img src="./images/Lab05-12.png " alt="Lab05-12" title="S3 address"/></p>
+
 
 
 ### Create a CloudFront CDN Web Distribution
@@ -359,21 +361,23 @@ The HTML code of our web app has only one direct access to a static file; the im
 Consider that we are now borrowing a CloudFront URL (RANDOM-ID-FROM-CLOUDFRONT.cloudfront.net) but usually, in the setup, we will use a URL from our domain, something like *static.mydomain.com* to map the CDN distribution.
 
 ```html
-    <link href="http://RANDOM-ID-FROM-CLOUDFRONT.cloudfront.net/custom.css" rel="stylesheet">
+    <link href="//RANDOM-ID-FROM-CLOUDFRONT.cloudfront.net/static/custom.css" rel="stylesheet">
 ```
 
 #### Questions
 
-Take a couple of screenshots of you S3 and CloudFront consoles to demonstrate that everything worked all right. Commit the changes on your web app, deploy them on EBS and check that it also works fine from there: use Google Chrome and check the origin of the files that you are loading:
+**Q54: Take a couple of screenshots of you S3 and CloudFront consoles to demonstrate that everything worked all right.** Commit the changes on your web app, deploy them on EBS and check that it also works fine from there: **use Google Chrome and check the origin of the files that you are loading (attach a screen shot similar to the one below)**:
 
  <p align="center"><img src="./images/Lab05-11.png " alt="Lab05-11" title="Files loaded"/></p>
+
+**Q55: How long have you been working on this session (including the optional part)? What have been the main difficulties you have faced and how have you solved them?**
 
  Add all these files to your repository and comment what you think is relevant in your session's *README.md*.
 
 
 # How to Submit this Assignment:
 
-Commit the `README.md` file to your responses repository and commit all changes to the web app repository.
+Commit the `README.md` file to your **responses repository** and commit all changes to the **web app repository**. Do not mix the repository containing the course answers with the repository that holds the changes to your web app.
 
 Submit **before the deadline** to the *RACO Practicals section* a "Lab5.txt" file including:
 
