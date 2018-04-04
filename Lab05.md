@@ -8,7 +8,7 @@ You had previously set a **IAM Policy and Role** to grant correct access to the 
 
 The code used sits in a **private** repository of your GitHub account named `eb-django-express-signup`.
 
-Remember that in your EBS console you have the settings of the previously created environment and that you can *unfreeze* the web app by clicking at *Restore terminated environment*.
+Remember that in your EB console you have the settings of the previously created environment and that you can *unfreeze* the web app by clicking at *Restore terminated environment*.
 
 <p align="center"><img src="./images/Lab05-1.png " alt="Lab05-1" title="Restore environment"/></p>
 
@@ -27,6 +27,50 @@ Content owners pay CDN operators to deliver the content they produce to their en
 
 **AWS CloudFront CDN** is a global CDN service that securely delivers static content with low latency and high transfer speeds. CloudFront CDN works seamlessly with other AWS services including **AWS Shield** for DDoS mitigation, **Amazon S3**, **Elastic Load Balancing** or **Amazon EC2** as origins for your applications, and **AWS Lambda** to run custom code close to final viewers.
 
+#  Pre-lab homework
+
+In the previous session, you configured an AWS role `gsg-signup-role` to be used by the EB to run the web app.
+When you run the web app locally, you are probably using the master account credentials that have been granted access to all resources. Therefore you might find access problems when deploying the web app later on EB.
+
+To locally run the web app using the `gsg-signup-role` you need to create a new IAM account that will be used for your programs. You can attach several roles to the account either using the console or programmatically as seen below.
+
+```
+import boto3
+
+"""
+Usage :
+    session = role_arn_to_session(
+        RoleArn='arn:aws:iam::YOUR-ACCOUNT-ID:role/example-role',
+        RoleSessionName='ExampleSessionName')
+    client = session.client('sqs')
+"""
+def role_arn_to_session(**args):
+    client = boto3.client('sts')
+    response = client.assume_role(**args)
+    return boto3.Session(
+        aws_access_key_id=response['Credentials']['AccessKeyId'],
+        aws_secret_access_key=response['Credentials']['SecretAccessKey'],
+        aws_session_token=response['Credentials']['SessionToken'])
+```
+For this laboratory session we will create a new IAM user, with only programmatic access, and we will attach the `gsg-signup-role` using the console. You can explore using the above code for your projects.
+
+1. Open the IAM console [https://console.aws.amazon.com/iam/](https://console.aws.amazon.com/iam/), click on the **"Users"** left menu option and then **"Add user"**. We will use "lab_sessions" as "User name", select only Programmatic access and click **"Next:Permissions"**
+
+<p align="center"><img src="./images/Lab05-13.png " alt="Lab05-13" title="Confirmed"/></p>
+
+2. Select "Attach existing policies directly", search "gsg-.." and select "gsg-signup-role". Click **"Next: Review"**
+
+<p align="center"><img src="./images/Lab05-14.png " alt="Lab05-14" title="Confirmed"/></p>
+
+3. Review the data and click **"Create user"**
+
+<p align="center"><img src="./images/Lab05-15.png " alt="Lab05-15" title="Confirmed"/></p>
+
+4. Copy and save the Access key ID and the secret from the newly created user.
+
+Run aws configure and use the new Access Key ID and secret as you did for the [Quickstart](https://github.com/CCBDA-UPC/Cloud-Computing-QuickStart/blob/master/Quick-Start-AWS.md#install-and-configure-aws-cli-and-eb-cli).
+
+Now you will be testing your local programs with the new identity that has much-restricted permissions, as restricted as the ones used for EB to run the web app.
 
 #  Tasks for Lab session #5
 
@@ -164,9 +208,8 @@ SNS message sent.
 "POST /signup HTTP/1.1" 409 0
 ```
 
-Now that the web app is working in your computer commit the changes. Deploy the new version to your EBS environment and test that it works correctly.
+Now that the web app is working in your computer commit the changes. Deploy the new version to your EB environment and test that it works correctly.
 
-#### Questions
 **Q51: Has everything gone alright?** Add your answers to the `README.md` file in the responses repository.
 
 <a name="Tasks52" />
@@ -271,20 +314,22 @@ To add the new option to the menu bar, simply edit the file *form/templates/gene
 
 If the web app works correctly in your computer commit the changes and deploy the new version on the cloud. Change whatever is necessary to make it work.
 
-#### Questions
 **Q52: Has everything gone alright? What have you changed?** Add your answers to the `README.md` file in the responses repository.
 
 <a name="Tasks53" />
 
 ## Task 5.3: Improve the web app transfer of information (optional)
-If you analyze the new function added, probably a good thing to do will be to optimize the transfer of information: imagine that instead of a few records in your NoSQL table you have millions of records. Transferring millions of records to your web app just to count how many e-mail addresses match a domain doesn't seem to be a great idea.
 
-Change the above code to obtain the count of e-mail addresses for each domain directly from DynamoDB. Test the changes locally, commit them to your GitHub repository and make the web app work in the cloud.
+You can work on this section locally in order to save expenses; you can terminate your environment from the EB console.
 
-Now, to save expenses, you can terminate your environment from the EBS console.
+If you analyze the new function added, probably a wise thing to do will be to optimize the data transfer from the DynamoDB table: imagine that instead of a few records in your NoSQL table you have millions of records. Transferring millions of records to your web app just to count how many e-mail addresses match a domain doesn't seem to be a great idea.
 
-#### Questions
-**Q53: Do you think that you need to save the Elastic Beanstalk environment configuration? What has changed in the code and in the configuration of the different resources used by the web app?** Add your responses to `README.md`.
+DynamoDB is a NoSQL database and does not allow aggregation SQL queries. You are encouraged to improve the above code to obtain a more efficient way of counting the e-mail addresses for each domain. Try to optimize the transfer of information as well as the web app processing. Maybe you need to change the way that the records are stored.
+
+Test the changes locally, commit them to your GitHub repository.
+
+
+**Q53: Describe the strategy used to fulfill the requirements of this section. What have you changed in the code and the configuration of the different resources used by the web app? What are the tradeoffs of your solution?** Add your responses to `README.md`.
 
 <a name="Tasks54" />
 
@@ -364,13 +409,11 @@ Consider that we are now borrowing a CloudFront URL (RANDOM-ID-FROM-CLOUDFRONT.c
     <link href="//RANDOM-ID-FROM-CLOUDFRONT.cloudfront.net/static/custom.css" rel="stylesheet">
 ```
 
-#### Questions
-
-**Q54: Take a couple of screenshots of you S3 and CloudFront consoles to demonstrate that everything worked all right.** Commit the changes on your web app, deploy them on EBS and check that it also works fine from there: **use Google Chrome and check the origin of the files that you are loading (attach a screen shot similar to the one below)**:
+**Q54: Take a couple of screenshots of you S3 and CloudFront consoles to demonstrate that everything worked all right.** Commit the changes on your web app, deploy them on EB and check that it also works fine from there: **use Google Chrome and check the origin of the files that you are loading (attach a screen shot similar to the one below)**:
 
  <p align="center"><img src="./images/Lab05-11.png " alt="Lab05-11" title="Files loaded"/></p>
 
-**Q55: How long have you been working on this session (including the optional part)? What have been the main difficulties you have faced and how have you solved them?**
+**Q55: How long have you been working on this session (including the optional part)? What have been the main difficulties you have faced and how have you solved them?** Add your answers to `README.md`.
 
  Add all these files to your repository and comment what you think is relevant in your session's *README.md*.
 
