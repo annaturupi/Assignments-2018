@@ -460,7 +460,7 @@ Django can also assume the synchronization of the static files to the CDN by mea
 
 Commit the `README.md` file to your **responses repository** and commit all changes to the **web app repository**. Do not mix the repository containing the course answers with the repository that holds the changes to your web app.
 
-Submit **before the deadline** to the *RACO Practicals section* a "Lab5.txt" file including:
+**There is only one deadline for all the laboratory session (optional part included)**. Submit **before the deadline** to the *RACO Practicals section* a "Lab5.txt" file including:
 
 1. Group number
 2. Name and email of the members of this group
