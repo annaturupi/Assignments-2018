@@ -378,16 +378,16 @@ To configure our CDN, we are going to follow the steps at ["Getting Started with
 You can also use AWS CLI to sync the contents of your static folder with that bucket. [Synchronize with your S3 bucket](https://docs.aws.amazon.com/cli/latest/reference/s3/sync.html) using the following command:
 
 ```bash
-_$ aws s3 sync --acl public-read ./static s3://eb-django-express-signup-YOUR-ID/static
-upload: ./static/custom.css to s3://eb-django-express-signup-YOUR-ID/static/custom.css
-upload: ./static/CCBDA-Square.png to s3://eb-django-express-signup-YOUR-ID/static/CCBDA-Square.png
-upload: ./static/startup-bg.png to s3://eb-django-express-signup-YOUR-ID/static/startup-bg.png
+_$ aws s3 sync --acl public-read ./static s3://eb-django-express-signup-YOUR-ID
+upload: ./static/custom.css to s3://eb-django-express-signup-YOUR-ID/custom.css
+upload: ./static/CCBDA-Square.png to s3://eb-django-express-signup-YOUR-ID/CCBDA-Square.png
+upload: ./static/startup-bg.png to s3://eb-django-express-signup-YOUR-ID/startup-bg.png
 ```
 
 If you explore in your S3 console you will see that there is a URL available to retrieve the files. Verify that you can access the contents of that URL, making the file public if it was not already.
 
 ```
-https://s3-eu-west-1.amazonaws.com/eb-django-express-signup-YOUR-ID/static/CCBDA-Square.png
+https://s3-eu-west-1.amazonaws.com/eb-django-express-signup-YOUR-ID/CCBDA-Square.png
 ```
 <p align="center"><img src="./images/Lab05-12.png " alt="Lab05-12" title="S3 address"/></p>
 
@@ -406,7 +406,7 @@ The HTML code of our web app has only one direct access to a static file; the im
 Consider that we are now borrowing a CloudFront URL (RANDOM-ID-FROM-CLOUDFRONT.cloudfront.net) but usually, in the setup, we will use a URL from our domain, something like *static.mydomain.com* to map the CDN distribution.
 
 ```html
-    <link href="//RANDOM-ID-FROM-CLOUDFRONT.cloudfront.net/static/custom.css" rel="stylesheet">
+    <link href="//RANDOM-ID-FROM-CLOUDFRONT.cloudfront.net/custom.css" rel="stylesheet">
 ```
 
 **Q54: Take a couple of screenshots of you S3 and CloudFront consoles to demonstrate that everything worked all right.** Commit the changes on your web app, deploy them on EB and check that it also works fine from there: **use Google Chrome and check the origin of the files that you are loading (attach a screen shot similar to the one below)**:
@@ -417,6 +417,44 @@ Consider that we are now borrowing a CloudFront URL (RANDOM-ID-FROM-CLOUDFRONT.c
 
  Add all these files to your repository and comment what you think is relevant in your session's *README.md*.
 
+### Django support for CDN
+
+Having to go through the code of a web app to locate all the static files is a not only tedious task but also prone to errors. Since Django Framework distinguishes the static content from the dynamic content, it supports the smooth integration of a CDN to distribute it.  Try configuring this feature if you are curious and have time.
+
+First of all, you need to add the following package to your environment:
+
+```bash
+(eb-virt)_$ pip install django-storages
+```
+
+Then modify `eb-django-express-signup\eb-django-express-signup\settings.py` by adding 'storages' as an installed application and tell Django to use the new storage schema as well as the name of your bucket and the name of the CloudFront domain.
+
+```python
+INSTALLED_APPS = [
+...
+    'storages',
+...
+]
+
+...
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_STORAGE_BUCKET_NAME = "eb-django-express-signup-YOUR-ID"
+AWS_S3_CUSTOM_DOMAIN = 'RANDOM-ID-FROM-CLOUDFRONT.cloudfront.net'
+
+```
+
+Having done that you should be able to keep all static files declared the way Django expects to and, at the same time, access them using a CDN.
+
+```html
+    <link href="{% static 'custom.css' %}" rel="stylesheet">
+</head>
+```
+
+This should be the last step on the deployment of the web app and you can activate it only if the variable DEBUG is set to False.
+
+Django can also assume the synchronization of the static files to the CDN by means of the maintenace command `python manage.py collectstatic`.
 
 # How to Submit this Assignment:
 
