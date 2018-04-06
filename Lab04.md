@@ -168,7 +168,7 @@ Everytime that you open a new process the process environment variables shall be
 
 We are creating a new Python virtual environment locally only to withhold the packages that the web app uses. Having a small Python environment means faster web app startup and avoid, as much as possible, any hidden dependencies and ambiguities.
 
-That Python virtual environment will be re-created remotely by Elastic Beanstalk through the use of the file *requirements.txt* and other configuration that you will set up later.
+That Python virtual environment will be re-created remotely by Elastic Beanstalk through the use of the file *requirements.txt* and other configuration that you will set up later. 
 
 **NOTE II**: If you are using an **MS-Windows OS** you might want to type the above commands in the Anaconda Terminal Window of the CCBDA Python environment. Make sure that "virtualenv" package is installed in that environment if you obtain a "command not found" error.
 
@@ -214,7 +214,7 @@ Open the Elastic Beanstalk console using this preconfigured link: [https://conso
 
 6. For Additional Resources, select **Create this environment inside a VPC** and choose **Next**.
 
-7. For Configuration Details, select a `t2.micro` Instance type (the smallest EC2 instance that you can pick) and a key pair that you have access to. Type your e-mail address to receive notifications regarding the environment that you are launching and finally choose **Next**.
+7. For Configuration Details, select a `t2.nano` Instance type (the smallest EC2 instance that you can pick) and a key pair that you have access to. Type your e-mail address to receive notifications regarding the environment that you are launching and finally choose **Next**.
 
 8. For Environment Tags, leave it blank and choose **Next**.
 
@@ -309,11 +309,17 @@ global:
 
 ```
 
-**NOTE:** Check that the name of the Elastic Beanstalk application_name corresponds to "gsg-signup" (or other name that you may see at the EBS console) and that the environment corresponds to something like "gsgSignup-d6rrp-env".
+**NOTE:** Check that the name of the Elastic Beanstalk application_name corresponds to "gsg-signup" (or other name that you may see at the EB console) and that the environment corresponds to something like "gsgSignup-d6rrp-env".
 
 <p align="center"><img src="./images/Lab04-14.png " alt="Lab04-14" title="Sample web app"/></p>
 
 Finally, you only need to type `deploy` to transfer the code to AWS.
+
+Transfer the configuration to the remote deployment by setting the environment variables.
+```
+_$ eb setenv DEBUG=True STARTUP_SIGNUP_TABLE=gsg-signup-table AWS_REGION=eu-west-1
+
+```
 
 Please note that if you haven't committed all the changes in your local repository eb deploy will deploy the last committed changes.
 ```
@@ -326,15 +332,10 @@ INFO: Deploying new version to instance(s).
 INFO: New application version was deployed to running EC2 instances.
 INFO: Environment update completed successfully.
 ```
-Transfer the configuration to the remote deployment by setting the environment variables.
-```
-_$ eb setenv DEBUG=True STARTUP_SIGNUP_TABLE=gsg-signup-table AWS_REGION=eu-west-1
-
-```
 
 ### Test the Web App
 
-Your EBS console will show changes, as seen below.
+Your EB console will show changes, as seen below.
 
 <p align="center"><img src="./images/Lab04-10.png " alt="Lab04-10" title="Sample web app"/></p>
 
@@ -356,13 +357,13 @@ _$ eb deploy
 
 In the Elastic Beanstalk console, in the navigation pane for your environment, choose Logs, download them and try to find the error. For instance one of the process environment variables are not set correctly.
 
-If you want to check the errors inside the EC2 instance running your EBS environment, you can connect the CLI using a command like:
+If you want to check the errors inside the EC2 instance running your EB environment, you can connect the CLI using a command like:
 
 ```
  ssh -i YOUR-KEYPAIR.pem ec2-user@IP-ADDRESS-OR-NAME
 ```
 
-Where the key pair used is the one declared when initializing the EBS and the name of the host. Go to the EC2 console in case you want to obtain the IP address.
+Where the key pair used is the one declared when initializing the EB and the name of the host. Go to the EC2 console in case you want to obtain the IP address.
 
 **NOTE:** Some people have detected that even after configuring the environment variables they do not appear to be set. Please, make sure that the "Software Configuration" box, inside of the tab "Configuration" has the environment variables correctly setup.
 
@@ -374,15 +375,17 @@ Before ending this session, please go to your Elastic Beanstalk console, unfold 
 
 <p align="center"><img src="./images/Lab04-12.png " alt="Lab04-12" title="Save configuration"/></p>
 
-Go to your EC2 console and check the EC2 instance that AWS uses for the Elastic Beanstalk environment. Terminate the instance. Check what happens in your EBS console. Wait a couple of minutes and check again your EC2 console. **What has happened? Why do you think that has happened?** Add your responses to `README.md`.
+Go to your EC2 console and check the EC2 instance that AWS uses for the Elastic Beanstalk environment. Terminate the instance. Check what happens in your EB console. Wait a couple of minutes and check again your EC2 console.
+
+**Q45a: What has happened? Why do you think that has happened?** Add your responses to `README.md`.
 
 <p align="center"><img src="./images/Lab04-13.png " alt="Lab04-13" title="EC instances"/></p>
 
-Now, to save expenses, you can terminate your environment, this time from the EBS console.  **What has happened? Why do you think that has happened?** Check both EC2 and EBS consoles. Add your responses to `README.md`.
+Now, to save expenses, you can terminate your environment, this time from the EB console.
 
-**How long have you been working on this session?**
+**Q45b: What has happened? Why do you think that has happened?** Check both EC2 and EB consoles. Add your responses to `README.md`.
 
-**What have been the main difficulties you have faced and how have you solved them?**
+**Q46: How long have you been working on this session? What have been the main difficulties you have faced and how have you solved them?** Add your answers to `README.md`.
 
 # How to Submit this Assignment:
 
