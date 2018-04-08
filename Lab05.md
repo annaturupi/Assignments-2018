@@ -52,13 +52,13 @@ def role_arn_to_session(**args):
         aws_secret_access_key=response['Credentials']['SecretAccessKey'],
         aws_session_token=response['Credentials']['SessionToken'])
 ```
-For this laboratory session we will create a new IAM user, with only programmatic access, and we will attach the `gsg-signup-role` using the console. You can explore using the above code for your projects.
+For this laboratory session we will create a new IAM user, with only programmatic access, and we will attach the `gsg-signup-policy` using the console. You can explore using the above code for your projects.
 
 1. Open the IAM console [https://console.aws.amazon.com/iam/](https://console.aws.amazon.com/iam/), click on the **"Users"** left menu option and then **"Add user"**. We will use "lab_sessions" as "User name", select only Programmatic access and click **"Next:Permissions"**
 
 <p align="center"><img src="./images/Lab05-13.png " alt="Lab05-13" title="Confirmed"/></p>
 
-2. Select "Attach existing policies directly", search "gsg-.." and select "gsg-signup-role". Click **"Next: Review"**
+2. Select "Attach existing policies directly", search "gsg-.." and select "gsg-signup-policy". Click **"Next: Review"**
 
 <p align="center"><img src="./images/Lab05-14.png " alt="Lab05-14" title="Confirmed"/></p>
 
@@ -70,7 +70,15 @@ For this laboratory session we will create a new IAM user, with only programmati
 
 Run aws configure and use the new Access Key ID and secret as you did for the [Quickstart](https://github.com/CCBDA-UPC/Cloud-Computing-QuickStart/blob/master/Quick-Start-AWS.md#install-and-configure-aws-cli-and-eb-cli).
 
-Now you will be testing your local programs with the new identity that has much-restricted permissions, as restricted as the ones used for EB to run the web app.
+When you will try to deploy your web app to EB you will see that the user has not enough permission to deploy the code and manage EB. Therefore you will need to add four extra policies:
+
+- AWSElasticBeanstalkFullAccess - AWS Managed policy
+- AWSElasticBeanstalkService - AWS Managed policy
+- AWSCodeDeployRole - AWS Managed policy
+- AWSCodeDeployFullAccess - AWS Managed policy
+
+
+Now you will be testing your local programs with the new identity that has much-restricted permissions, as restricted as necessary to interact with the resources used (DynamoDB and SNS) and be able to deploy mand manage the EB to run the web app.
 
 #  Tasks for Lab session #5
 
@@ -368,11 +376,11 @@ All the distributed static content overloads our server with requests. Moving it
 To configure our CDN, we are going to follow the steps at ["Getting Started with CloudFront CDN"](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/GettingStarted.html). Check that document if you need extra details.
 
  Review the QuickStart hands-on [Getting Started in the Cloud with AWS](../../../Cloud-Computing-QuickStart/blob/master/Quick-Start-AWS.md) and create a new bucket in 'eu-west-1' region to deposit the web app static content. Let us name this bucket **eb-django-express-signup-YOUR-ID** (YOUR-ID can be your AWS account number or any other distinctive string because you will not be allowed to create two buckets with the same name, regardless the owner).
-
+ 
  <p align="center"><img src="./images/Lab05-8.png " alt="Lab05-8" title="S3 bucket"/></p>
 
  This time add the files manually and grant them public read permission.
-
+ 
   <p align="center"><img src="./images/Lab05-9.png " alt="Lab05-9" title="S3 bucket"/></p>
 
 You can also use AWS CLI to sync the contents of your static folder with that bucket. [Synchronize with your S3 bucket](https://docs.aws.amazon.com/cli/latest/reference/s3/sync.html) using the following command:
