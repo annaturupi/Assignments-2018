@@ -1,5 +1,7 @@
 # Lab session #6: Interacting with users and services in the Cloud
 
+This hands-on session continues the previous lab sessions where you deployed a basic web app that interacts with students interested in joining your new Cloud Computing course.
+
 * [Task 6.1: How to provide your services through a REST API?](#Tasks61)
 * [Task 6.2: How to provide our service combined with third-party services?](#Tasks62)  
 * [Task 6.3: Using Advanced Analytics as a Service in the Cloud](#Tasks64)  
@@ -10,9 +12,9 @@
 <a name="Tasks61"/>
 
 ## Task 6.1:  How to provide your services through a REST API?
-As we have previously seen, we can have plots in Python using libraries such as matplotlib.  However, how to provide our results through an API to consumers?
+As we have seen in previous lab sessions, we can have plots in Python using libraries such as matplotlib.  However, how to provide our results through an API to consumers?
 
-If you want to use python to build a prototype server (of your service) and you want to provide web-based API with minimal effort, you can take advantage of the web app that we have previously developed and deployed using AWS Elastic Beanstalk.
+If you want to use Python to build a prototype server (of your service) and you want to provide web-based API with minimal effort, you can take advantage of the web app that we have previously developed and deployed using AWS Elastic Beanstalk.
 
 As a simplistic and quick implementation example, we are going to create a new view "chart" that will provide the service of visualizing how many e-mails we have gathered in our web app. Consequently, when a "client" invokes the URL *http://127.0.0.1:8000/chart*, we will provide them a chart with our results.
 
@@ -45,7 +47,7 @@ urlpatterns = [
 ]
 ```
 
-We will add the following lines at the end of the file *form/views.py* :
+We will add the following lines at the end of the file *form/views.py* *(you can alter the following code with the solution that you implemented for the optional part of Lab. session #5)*:
 
 ```python
 import vincent
@@ -55,11 +57,15 @@ BASE_DIR = getattr(settings, "BASE_DIR", None)
 
 
 def chart(request):
+    domain = request.GET.get('domain')
+    preview = request.GET.get('preview')
     leads = Leads()
-    items = leads.get_leads()
+    items = leads.get_leads(domain, preview)
     domain_count = Counter()
     domain_count.update([item['email'].split('@')[1] for item in items])
     domain_freq = domain_count.most_common(15)
+    if len(domain_freq) == 0:
+        return HttpResponse('No items to show', status=200)
     labels, freq = zip(*domain_freq)
     data = {'data': freq, 'x': labels}
     bar = vincent.Bar(data, iter_idx='x')
@@ -112,9 +118,15 @@ AWS Lambda introduced a new serverless world. AWS community started working on a
 
 To sum up: AWS Lambda runs your code while Elastic Beanstalk runs your applications.
 
-#### Questions
+If you check the code for the controller "chart", you will see that it accepts the same parameters that search admitted. Therefore you can have different plots based on the parameters: *http://127.0.0.1:8000/chart?preview=Yes&domain=upc.edu*
 
-Do you think that the file  *domain_freq.json* written as static content is the best way to distribute it? Why? What will you change in the above example? How will the changes look like? Write your answers in the `README.md` file for this session.
+
+**Q61a: Having  *domain_freq.json* written as static content is not the best way to distribute it because different clients can invoke different parameters simultaneously? Can you use S3 to solve the problem? Write the changes in the code and explain your solution?** 
+
+**Q61b: Once you have your solution implemented publish the changes to EB and try the new functionality in the cloud. Did you need to change anything, apart from the code, to make the web app work?**
+
+Write your answers in the `README.md` file for this session.
+
 
 <a name="Tasks62"/>
 
@@ -358,11 +370,14 @@ Just execute the web app locally http://127.0.0.1:8000/map, and you will see som
 
 <p align="center"><img src="./images/Lab06-map2.png" alt="Tweets in Europe" title="Tweets in Europe"/></p>
 
-#### Questions
 
-Now we are showing all the collected tweets on the map. Can you think of a way of restricting the tweets plotted using some constraints? For instance, the user could invoke http://127.0.0.1:8000/map?from=2018-02-01-05-20&to=2018-02-03-00-00. Implement that functionality or any other functionality that you think it could be interesting for the users. Change the code to implement the new feature and explain what you have done and show the results in the *README.md* file for this lab session.
+**Q62a: Now we are showing all the collected tweets on the map. Can you think of a way of restricting the tweets plotted using some constraints? For instance, the user could invoke http://127.0.0.1:8000/map?from=2018-02-01-05-20&to=2018-02-03-00-00. Implement that functionality or any other functionality that you think it could be interesting for the users.** Change the code to implement the new feature and explain what you have done and show the results in the *README.md* file for this lab session.
 
-Do you think that the file *geo_data.json* written as static content is the best way to distribute it? Why? Write your answers in the `README.md` file for this session.
+**Q62b: Make the necessary changes to have *geo_data.json* distributed using S3, or the method you used for the above section. Publish your changes to EB and explain what changes have you made to have this new function working.** 
+
+**Q62c: How would you run `TwitterListener.py` in the cloud instead of locally? Try to implement your solution and explain what problems have you found and what solutions have you implemented.**
+  
+Write your answers in the `README.md` file for this session.
 
 <a name="Tasks63"/>
 
@@ -458,7 +473,7 @@ Go to your responses repository, commit and push:
 
 Go to your **private** web app repository and commit the changes that you have made to implement task 6.2.
 
-Submit **before the deadline** to the *RACO Practicals section* a "Lab6.txt" file including:
+**There is only one deadline for all the laboratory session (optional part included)**. Submit **before the deadline** to the *RACO Practicals section* a "Lab6.txt" file including:
 
 1. Group number
 2. Name and email of the members of this group
