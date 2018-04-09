@@ -112,16 +112,10 @@ With the above procedure, we can plot many different types of charts using `Vinc
 
 Now you know how to deploy your services/web apps on the cloud using Elastic Beanstalk. Elastic Beanstalk, as you have already experimented, is an orchestration service that automatically builds your EC2, auto-scaling groups, ELB's, Cloudwatch metrics and S3 buckets so that you can focus on just deploying applications to AWS and not worry about infrastructure tasks.
 
-There is also an AWS service called [AWS Lambda](https://aws.amazon.com/lambda/) that, as well as EBS, allows you to not deal with over/under capacity, deployments, scaling and fault tolerance, OS or language updates, metrics, and logging. AWS Lambda is considered a **Function as a Service**, whereby you create a piece of code and AWS will execute that portion of code, and only that piece of code, as many times as you tell it to.
-
-AWS Lambda introduced a new serverless world. AWS community started working on a complete solution to develop AWS-powered **microservices** or backends for the web, mobile, and IoT applications. The migration required facilitation because of the building-block nature of AWS Lambda and its complex symbiosis with Amazon API Gateway. One example is [Serverless Framework](https://serverless.com) that allows building auto-scaling, pay-per-execution, event-driven apps on AWS Lambda. **(optional project)**
-
-To sum up: AWS Lambda runs your code while Elastic Beanstalk runs your applications.
-
 If you check the code for the controller "chart", you will see that it accepts the same parameters that search admitted. Therefore you can have different plots based on the parameters: *http://127.0.0.1:8000/chart?preview=Yes&domain=upc.edu*
 
 
-**Q61a: Having  *domain_freq.json* written as static content is not the best way to distribute it because different clients can invoke different parameters simultaneously? Can you use S3 to solve the problem? Write the changes in the code and explain your solution?** 
+**Q61a: Having  *domain_freq.json* written as static content is not the best way to distribute it because different clients can invoke different parameters simultaneously? Can you use S3 to solve the problem? Write the changes in the code and explain your solution?**
 
 **Q61b: Once you have your solution implemented publish the changes to EB and try the new functionality in the cloud. Did you need to change anything, apart from the code, to make the web app work?**
 
@@ -373,10 +367,10 @@ Just execute the web app locally http://127.0.0.1:8000/map, and you will see som
 
 **Q62a: Now we are showing all the collected tweets on the map. Can you think of a way of restricting the tweets plotted using some constraints? For instance, the user could invoke http://127.0.0.1:8000/map?from=2018-02-01-05-20&to=2018-02-03-00-00. Implement that functionality or any other functionality that you think it could be interesting for the users.** Change the code to implement the new feature and explain what you have done and show the results in the *README.md* file for this lab session.
 
-**Q62b: Make the necessary changes to have *geo_data.json* distributed using S3, or the method you used for the above section. Publish your changes to EB and explain what changes have you made to have this new function working.** 
+**Q62b: Make the necessary changes to have *geo_data.json* distributed using S3, or the method you used for the above section. Publish your changes to EB and explain what changes have you made to have this new function working.**
 
 **Q62c: How would you run `TwitterListener.py` in the cloud instead of locally? Try to implement your solution and explain what problems have you found and what solutions have you implemented.**
-  
+
 Write your answers in the `README.md` file for this session.
 
 <a name="Tasks63"/>
@@ -392,14 +386,16 @@ This hands-on helps you to classify images using labels. [Cloud Vision API](http
 <p align="center"><img src="./images/Lab06-GoogleVision.png" alt="GoogleVision" title="GoogleVision"/></p>
 
 ### 6.3.1 Cloud Platform sign up
-The first step is to [sign up]( https://cloud.google.com/vision/). It exists a free trial for this service, to fully enjoy the benefits of Google’s Cloud platform the best option is to get a business trial, with $300 worth of free credit for this year. That amount is far more than enough for the expected needs on this subject’s scope and will give you time enough to explore other features.
+It exists a free trial for this service, to fully enjoy the benefits of Google’s Cloud platform the best option is to get a business trial, with $300 worth of free credit for this year. That amount is far more than enough for the expected needs on this subject’s scope and will give you time enough to explore other features.
 
-Once the registration process is finished, we need to access the [management console]( https://console.cloud.google.com/home), where it is possible to create a new project, choosing a name and an ID for it. It is necessary to enable billing for this project to continue, but as long as we are spending from the free credit we have there is nothing to worry about.
+You need to have a google account, in case you don't have one, please, register.
+Once the registration process is finished, follow this [quick start guide]( https://cloud.google.com/vision/docs/quickstart) where you will be able to create and setup the necessary resources to execute a demo using your web browser. It is necessary to enable billing for this project to continue, but as long as we are spending from the free credit we have there is nothing to worry about.
 
 The project creation process takes a few seconds, after finishing it will appear in our list. It is time to select the new project and enable the Cloud Vision API that is the tool we will use during this hands-on. Finally, we need to set up some credentials that will be the way we authenticate to enable the communication: This can be done selecting “Credentials” in the left menu and simply clicking over the blue button saying “Create credentials” and choosing the “service account key” option.  Select JSON as your key type. Once completed, your service account key is downloaded to your browser's default location.
 
-### 6.3.2 Environment setup
-The base language is Python and those packages and almost every needed module will be already installed. The scripts and demo files needed can be downloaded from the official Google Cloud Platform GitHub repository, and only a few more changes will be needed to be ready.
+### 6.3.2 Python environment setup
+
+Let's now execute access the service using a program. The scripts and demo files needed can be downloaded from the official Google Cloud Platform GitHub repository, and only a few more changes will be needed to be ready.
 
 #### Download the Example Code
 Download the code from this repository. You can do this by executing:
@@ -416,18 +412,21 @@ This example has been tested with Python 2.7 and 3.4.
 #### Set Up to Authenticate With Your Project's Credentials
 
 Next, set up to authenticate with the Cloud Vision API using your project's
-service account credentials. E.g., to authenticate locally, set
-the `GOOGLE_APPLICATION_CREDENTIALS` environment variable to point to your
+service account credentials.
+
+<p align="center"><img src="./images/Lab06-account.png" alt="Google Account" title="Tweet"/></p>
+
+E.g., to authenticate locally, set the `GOOGLE_APPLICATION_CREDENTIALS` environment variable to point to your
 downloaded service account credentials before running this example:
 
 ```export GOOGLE_APPLICATION_CREDENTIALS=/path/to/your/credentials-key.json```
 
-If you do not do this, you will see an error that looks something like this when
+If you do not do this, you will see an error that looks like this when
 you run the script:
-`HttpError 403 when requesting
-https://vision.googleapis.com/v1/images:annotate?alt=json returned
-"Project has not activated the vision.googleapis.com API. Please enable the API
-for project ..."`
+
+```
+oauth2client.client.ApplicationDefaultCredentialsError: The Application Default Credentials are not available. They are available if running in Google Compute Engine. Otherwise, the environment variable GOOGLE_APPLICATION_CREDENTIALS must be defined pointing to a file defining the credentials. See https://developers.google.com/accounts/docs/application-default-credentials for more information.
+```
 
 
 ### 6.3.3 Quick Start: Running the Example
@@ -457,12 +456,25 @@ $ python label.py <path-to-image>
 3. Wait for the script to finish. It will show 5 possible classfications for your image:
 ```bash
 Results for image Marenostrum.jpg:
-electricity - 0.770
-computer cluster - 0.745
-display device - 0.735
-electrical supply - 0.671
-electrical wiring - 0.667
+technology - 0.929
+computer network - 0.857
+electronic device - 0.820
+metropolitan area - 0.748
+server - 0.723
 ```
+
+### 6.3.4 Classify images
+
+Now that you know how to use the Google cloud vision service what about analyzing the pictures posted on Twitter or Instagram by famous people?
+
+Create a file `ImageAnalyzer.py` that you will run on your computer. The first command line parameter will be the URL of a valid Instagram or Twitter profile. That program will:
+
+1. obtain the last 100 images from the profile entered
+2. send the images to Google Cloud Vision
+3. store all the tags describing the images and the associated probabilities
+4. create a PNG file containing a histogram, or any other type of representation, of what thinks Google cloud vision about the images published by that profile
+
+**Q33: What problems have you found developing this section? How did you solve them?** Attach to your Lab06 folder the README.md file containing your answers, the code and some histograms, related to different analyzed profiles.
 
 
 # How to Submit this Assignment:
@@ -470,6 +482,7 @@ electrical wiring - 0.667
 Go to your responses repository, commit and push:
 - the `README.md` file with your answers, including the results of the optional task 6.3
 - the screenshots of your maps for task 6.2
+- the code and histograms for task 6.3
 
 Go to your **private** web app repository and commit the changes that you have made to implement task 6.2.
 
