@@ -117,6 +117,8 @@ If you check the code for the controller "chart", you will see that it accepts t
 
 **Q61a: Having  *domain_freq.json* written as static content is not the best way to distribute it because different clients can invoke different parameters simultaneously? Can you use S3 to solve the problem? Write the changes in the code and explain your solution?**
 
+To solve some appearing issues you may want to read [Cross-Origin Resource Sharing (CORS)](https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html).
+
 **Q61b: Once you have your solution implemented publish the changes to EB and try the new functionality in the cloud. Did you need to change anything, apart from the code, to make the web app work?**
 
 Write your answers in the `README.md` file for this session.
@@ -474,8 +476,9 @@ Create a file `ImageAnalyzer.py` that you will run on your computer. The first c
 3. store all the tags describing the images and the associated probabilities
 4. create a PNG file containing a histogram, or any other type of representation, of what thinks Google cloud vision about the images published by that profile
 
-**Q33: What problems have you found developing this section? How did you solve them?** Attach to your Lab06 folder the README.md file containing your answers, the code and some histograms, related to different analyzed profiles.
+**Q63: What problems have you found developing this section? How did you solve them?** Attach to your Lab06 folder the README.md file containing your answers, the code and some histograms, related to different analyzed profiles.
 
+**Q64: How long have you been working on this session (including the optional part)? What have been the main difficulties you have faced and how have you solved them?** Add your answers to `README.md`.
 
 # How to Submit this Assignment:
 
