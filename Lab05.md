@@ -183,7 +183,7 @@ Error sending SNS message: An error occurred (AuthorizationError) when calling t
 "POST /signup HTTP/1.1" 200 0
 ```
 
-To fix that error we need to grant access to the IAM profile that we created in the previous session. Go to [https://console.aws.amazon.com/iam](https://console.aws.amazon.com/iam) and check the JSON contents of the *gsm-signup-policy*: it only grants access to DynamoDB  to put an item:
+To fix that error we need to grant access to the IAM profile that we created in the previous session. Go to [https://console.aws.amazon.com/iam](https://console.aws.amazon.com/iam) and check the JSON contents of the *gsg-signup-policy*: it only grants access to DynamoDB  to put an item:
 
 ```json
 {
@@ -199,7 +199,7 @@ To fix that error we need to grant access to the IAM profile that we created in 
 }
 ```
 
-We can change the Action property to a list where we grant the sns:Publish action to the list of allowed actions for *gsm-signup-policy*.
+We can change the Action property to a list where we grant the sns:Publish action to the list of allowed actions for *gsg-signup-policy*.
 
 ```json
 "Action":["sns:Publish","dynamodb:PutItem"]
