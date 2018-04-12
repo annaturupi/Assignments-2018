@@ -483,13 +483,15 @@ Create a file `ImageAnalyzer.py` that you will run on your computer. The first c
 # How to Submit this Assignment:
 
 Go to your responses repository, commit and push:
-- the `README.md` file with your answers, including the results of the optional task 6.3
+- the `README.md` file with your answers,
 - the screenshots of your maps for task 6.2
-- the code and histograms for task 6.3
+
+- for the optional part, update the `README.md` to include the results of the optional task 6.3
+- include the code and histograms for task 6.3
 
 Go to your **private** web app repository and commit the changes that you have made to implement task 6.2.
 
-**There is only one deadline for all the laboratory session (optional part included)**. Submit **before the deadline** to the *RACO Practicals section* a "Lab6.txt" file including:
+Submit **before the deadline for each part** to the *RACO Practicals section* a "Lab6.txt" file including:
 
 1. Group number
 2. Name and email of the members of this group
