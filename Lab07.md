@@ -338,7 +338,7 @@ Change the code according to your question, create a new view and add it to the 
 Go to your responses repository, commit and push:
 - the `README.md` file with your answers,
 
-Go to your **private** `scrapy-lab` repository and commit the changes that you have made to implement task 7.2.
+Go to your **private** `scrapy-lab` repository and commit the changes that you have made.
 
 Submit **before the deadline for each part** to the *RACO Practicals section* a "Lab7.txt" file including:
 
