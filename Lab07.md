@@ -285,7 +285,7 @@ yield {
 }
 ```
 
-by a call to the `addElasticSearch` to insert the record in Elasticsearch.
+by a call to the `ElasticSearch` package to insert the record in Elasticsearch.
 
 ```python
 es.index(index='imdb',
