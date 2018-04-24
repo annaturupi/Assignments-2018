@@ -255,30 +255,22 @@ Once you will have your credentials, you will have two different URLs: Elasticse
 
 <p align="center"><img src="./images/Lab07-cloudCredentials.png" alt="Cloud credentials" title="Cloud credentials"/></p>
 
-You can use the Elasticsearch API URL to insert one record or many. The following code does insert one record but you can easily change it to insert more (if necessary). This will use an "index" named 'imdb' that you will be able to recover from Kibana.
+You can use the Python [elasticsearch package](https://elasticsearch-py.readthedocs.io) to insert one record or many. The following code inserts one record at an "index" named 'imdb' that you will be able to recover from Kibana.
 
 ```python
-import requests
+from elasticsearch import Elasticsearch
 
-ELASTIC_API_URL = os.environ['ELASTIC_API_URL']
+ELASTIC_API_URL_HOST = os.environ['ELASTIC_API_URL_HOST']
+ELASTIC_API_URL_PORT = os.environ['ELASTIC_API_URL_PORT']
 ELASTIC_API_USERNAME = os.environ['ELASTIC_API_USERNAME']
 ELASTIC_API_PASSWORD = os.environ['ELASTIC_API_PASSWORD']
 
-def addElasticSearch(movie):
-    url = '%s/_bulk'%ELASTIC_API_URL
-    index = {
-        'index': {
-            '_index': 'imdb',
-            '_type': 'movies',
-        }
-    }
-    payload = '%s\n%s\n' % (json.dumps(index), json.dumps(movie))
-    headers = {
-        'Content-Type': "application/json",
-        'Cache-Control': "no-cache"
-    }
-    response = requests.request("PUT", url, data=payload, headers=headers, auth=(ELASTIC_API_USERNAME,ELASTIC_API_PASSWORD))
+es=Elasticsearch(host=ELASTIC_API_URL_HOST,
+                 scheme='https',
+                 port=ELASTIC_API_URL_PORT,
+                 http_auth=(ELASTIC_API_USERNAME,ELASTIC_API_PASSWORD))
 ```
+
 
 Going to the code from the above task you can replace:
 
@@ -296,14 +288,17 @@ yield {
 by a call to the `addElasticSearch` to insert the record in Elasticsearch.
 
 ```python
-addElasticSearch({
-    "movie_id": "tt0096463",
-    "movie_name": "Working Girl",
-    "movie_year": 1988,
-    "actor_name": "Kevin Spacey",
-    "actor_id": "nm0000228",
-    "role_name": "Bob Speck"
-})
+es.index(index='imdb',
+         type='movies',
+         id=uiid.uuid4(),
+         body={
+            "movie_id": "tt0096463",
+            "movie_name": "Working Girl",
+            "movie_year": 1988,
+            "actor_name": "Kevin Spacey",
+            "actor_id": "nm0000228",
+            "role_name": "Bob Speck"
+        })
 ```
 
 ### Explore the data in Kibana
