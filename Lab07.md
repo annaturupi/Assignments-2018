@@ -290,7 +290,7 @@ by a call to the `ElasticSearch` package to insert the record in Elasticsearch.
 ```python
 es.index(index='imdb',
          type='movies',
-         id=uiid.uuid4(),
+         id=uiid.uiid4(),
          body={
             "movie_id": "tt0096463",
             "movie_name": "Working Girl",
