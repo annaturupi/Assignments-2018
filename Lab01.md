@@ -4,7 +4,7 @@ In this Lab session, you will be asked to put into practice the basic knowledge 
 
 #  Pre-lab homework 0
 Take a look at the following hands-on guides to check if you already have the basic knowledge to follow this course. If not, please do the assignments.
-* Hands-on 0: [Run a Linux OS in a Virtual Machine](../../../Cloud-Computing-QuickStart/blob/master/LinuxOS-VirtualMachine.md) (Only required for Windows users)
+
 * Hands-on 1: [Git and GitHub Quick Start](../../../Cloud-Computing-QuickStart/blob/master/Git-Github-Quick-Start.md)
 * Hands-on 2: [Markdown syntax](../../../Cloud-Computing-QuickStart/blob/master/Quick-Start-Markdown.md)
 * Hands-on 3: [Python Quick Start](../../../Cloud-Computing-QuickStart/blob/master/Python-Quick-Start.md)
